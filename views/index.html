@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notion to confluence Converter</title>
+    <meta name="description" content="Notion-to-confluence-converter">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./public/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Notion to confluence Converter</h1>
+    </header>
+    <hr style='margin: 50px'>
+    <section>
+      <h3>Example working</h3>
+      <code>Post request to</code><br>
+      <code>/api/convert with form data</code><br>
+      <h3>Example return</h3>
+      <code>{ "Page transfer from notion to confluence successful" }</code>
+    </section>
+    <hr style='margin: 50px'>
+    <section>
+      <div id='testui' >
+        <h3 style="text-align: left">Front-End</h3>
+        <form id="convertForm" class="border">
+          <input type="text" id="convertField" name="notionPageId" placeholder="Enter the page id of the notion" style="width: 200px">
+          <input type="text" id="convertField" name="confluenceWorkSpaceName" placeholder="Enter the confluence workspace name" style="width: 200px">
+          <input id="convert" type="submit" value='Convert!'>
+        </form>
+        <p id='result'></p>
+        <code id='jsonResult'></code>
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $('#convertForm').submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+            url: '/api/convert',
+            type: 'post',
+            data: $('#convertForm').serialize(),
+            success: function(data) {
+              $('#result').text(data.string || data);
+              $('#jsonResult').text(JSON.stringify(data));
+            }
+          });
+        });
+      });
+   </script>
+  </body>
+</html>
